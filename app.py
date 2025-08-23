@@ -130,3 +130,24 @@ This model is built using a machine learning pipeline that includes preprocessin
 scaling numerical features, and applying a regression model to predict house rents based on various property features.  """)
 st.sidebar.markdown("The model was trained on a dataset of house rents and is designed to provide accurate predictions based on user inputs.")
 
+
+import plotly.express as px
+
+df = pd.read_csv("House_Rent_Dataset.csv")
+
+st.subheader("🏙️ Average Rent by City")
+city_rent = df.groupby("City")["Rent"].mean().reset_index()
+
+fig = px.bar(city_rent, x="City", y="Rent", color="City", title="Average Rent per City")
+st.plotly_chart(fig, use_container_width=True)
+
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+st.subheader("📊 Explore Data Distributions")
+
+feature = st.selectbox("Select a feature to visualize", ["Size", "BHK", "Bathroom", "Rent"])
+
+fig, ax = plt.subplots(figsize=(8, 4))
+sns.histplot(df[feature], kde=True, ax=ax)
+st.pyplot(fig)
